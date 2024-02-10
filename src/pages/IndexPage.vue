@@ -5,16 +5,13 @@
         class="shadow-1 overflow-hidden"
         style="border-radius: 30px"
         icon="explore"
-        label="About # 1"
+        label="Student info"
         header-class="bg-primary text-white"
         expand-icon-class="text-white"
       >
         <q-card>
           <q-card-section>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore a
-            dolores sequi inventore recusandae placeat temporibus minima vitae
-            beatae modi animi fuga aperiam quasi, nobis tempora quae
-            necessitatibus enim ipsa?
+            This app was created by Hlib Monastyrov, 122-21-1
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -25,16 +22,14 @@
         class="shadow-1 overflow-hidden"
         style="border-radius: 30px"
         icon="explore"
-        label="About # 2"
+        label="About task"
         header-class="bg-primary text-white"
         expand-icon-class="text-white"
       >
         <q-card>
           <q-card-section>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore a
-            dolores sequi inventore recusandae placeat temporibus minima vitae
-            beatae modi animi fuga aperiam quasi, nobis tempora quae
-            necessitatibus enim ipsa?
+            The task was to test API calls to OpenWeather.org and create an
+            application on Quasar Framework
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -108,7 +103,7 @@ export default {
       par1: "We use OpenWeather.com",
       par2: "",
       body: "Lorem ipsum",
-      tab: ref("mails"),
+      tab: ref("Kyiv"),
       splitterModel: ref(20),
     };
   },

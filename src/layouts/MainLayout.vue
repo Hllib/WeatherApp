@@ -38,7 +38,7 @@
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
-      :width="250"
+      :width="220"
       :breakpoint="600"
     >
       <q-scroll-area
@@ -63,6 +63,14 @@
             </q-item-section>
 
             <q-item-section> Weather panel</q-item-section>
+          </q-item>
+
+          <q-item to="https://openweathermap.org/" exact clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="link" />
+            </q-item-section>
+
+            <q-item-section> OpenWeather website</q-item-section>
           </q-item>
         </q-list>
       </q-scroll-area>
