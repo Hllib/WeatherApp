@@ -96,15 +96,39 @@
 
 <script>
 import { ref } from "vue";
+import { api } from "boot/axios";
 
 export default {
   setup() {
+    const data = ref(null);
+
+    function loadData() {
+      api
+        .get(
+          "https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=30292a6a5232adf186142c5e87134704"
+        )
+        .then((response) => {
+          data.value = response.data;
+          console.log(response.data);
+        })
+        .catch(() => {
+          $q.notify({
+            color: "negative",
+            position: "top",
+            message: "Loading failed",
+            icon: "report_problem",
+          });
+        });
+    }
+
     return {
       par1: "We use OpenWeather.com",
       par2: "",
       body: "Lorem ipsum",
       tab: ref("Kyiv"),
       splitterModel: ref(20),
+      data,
+      loadData,
     };
   },
 };

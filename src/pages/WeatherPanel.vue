@@ -74,7 +74,7 @@ export default {
 
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <q-form @submit="onSubmit" @reset="loadData" class="q-gutter-md">
       <q-input
         filled
         v-model="name"
@@ -115,6 +115,7 @@ export default {
 <script>
 import { useQuasar } from "quasar";
 import { ref } from "vue";
+import { api } from "boot/axios";
 
 export default {
   setup() {
@@ -124,10 +125,33 @@ export default {
     const age = ref(null);
     const accept = ref(false);
 
+    const data = ref(null);
+
+    function loadData() {
+      api
+        .get(
+          "https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=30292a6a5232adf186142c5e87134704"
+        )
+        .then((response) => {
+          data.value = response.data;
+          console.log(response.data);
+        })
+        .catch(() => {
+          $q.notify({
+            color: "negative",
+            position: "top",
+            message: "Loading failed",
+            icon: "report_problem",
+          });
+        });
+    }
+
     return {
       name,
       age,
       accept,
+      data,
+      loadData,
 
       onSubmit() {
         if (accept.value !== true) {
