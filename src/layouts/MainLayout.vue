@@ -65,12 +65,19 @@
             <q-item-section> Weather panel</q-item-section>
           </q-item>
 
-          <q-item to="https://openweathermap.org/" exact clickable v-ripple>
+          <q-item exact clickable v-ripple>
             <q-item-section avatar>
               <q-icon name="link" />
             </q-item-section>
 
-            <q-item-section> OpenWeather website</q-item-section>
+            <q-item-section>
+              <a
+                href="https://openweathermap.org/"
+                target="_blank"
+                style="text-decoration: none"
+                >OpenWeather website</a
+              ></q-item-section
+            >
           </q-item>
         </q-list>
       </q-scroll-area>

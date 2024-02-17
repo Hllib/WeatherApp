@@ -82,7 +82,7 @@
   </div>
   <div class="q-px-lg q-py-md">
     <q-timeline color="secondary">
-      <q-timeline-entry heading body="Inforamtion section" />
+      <q-timeline-entry heading body="Information section" />
 
       <q-timeline-entry
         title="OpenWeather.org"
