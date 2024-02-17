@@ -16,9 +16,7 @@
         </q-card>
       </q-expansion-item>
     </div>
-
     <div class="q-pa-md" style="max-width: 350px">
-      <q-btn label="Submit" color="primary" @click="handleLondon" />
       <q-expansion-item
         class="shadow-1 overflow-hidden"
         style="border-radius: 30px"
@@ -36,41 +34,50 @@
       </q-expansion-item>
     </div>
   </div>
+
   <div>
-    <q-splitter v-model="splitterModel" style="height: 250px">
-      <template v-slot:before>
-        <q-tabs v-model="tab" vertical class="text-teal">
-          <q-tab name="Kyiv" icon="map" label="Kyiv" />
-          <q-tab name="London" icon="map" label="London" />
-          <q-tab name="Paris" icon="map" label="Paris" />
-        </q-tabs>
-      </template>
+    <div>
+      <q-splitter v-model="splitterModel" style="height: 250px">
+        <template v-slot:before>
+          <q-tabs v-model="tab" vertical class="text-teal">
+            <q-tab name="Kyiv" icon="map" label="Kyiv" />
+            <q-tab name="London" icon="map" label="London" />
+            <q-tab name="Paris" icon="map" label="Paris" />
+          </q-tabs>
+        </template>
 
-      <template v-slot:after>
-        <q-tab-panels
-          v-model="tab"
-          animated
-          swipeable
-          vertical
-          transition-prev="jump-up"
-          transition-next="jump-up"
-        >
-          <q-tab-panel name="Kyiv">
-            <div class="text-h4 q-mb-md">{{ KyivField }}</div>
-          </q-tab-panel>
+        <template v-slot:after>
+          <q-tab-panels
+            v-model="tab"
+            animated
+            swipeable
+            vertical
+            transition-prev="jump-up"
+            transition-next="jump-up"
+          >
+            <q-tab-panel name="Kyiv">
+              <div class="text-h4 q-mb-md">{{ KyivField }}</div>
+            </q-tab-panel>
 
-          <q-tab-panel name="London">
-            <div class="text-h4 q-mb-md">{{ LondonField }}</div>
-          </q-tab-panel>
+            <q-tab-panel name="London">
+              <div class="text-h4 q-mb-md">{{ LondonField }}</div>
+            </q-tab-panel>
 
-          <q-tab-panel name="Paris">
-            <div class="text-h4 q-mb-md">{{ ParisField }}</div>
-          </q-tab-panel>
-        </q-tab-panels>
-      </template>
-    </q-splitter>
+            <q-tab-panel name="Paris">
+              <div class="text-h4 q-mb-md">{{ ParisField }}</div>
+            </q-tab-panel>
+          </q-tab-panels>
+        </template>
+      </q-splitter>
+    </div>
+    <q-btn
+      push
+      color="white"
+      text-color="primary"
+      label="Load"
+      @click="onSubmit"
+    />
   </div>
-
   <div class="q-px-lg q-py-md">
     <q-timeline color="secondary">
       <q-timeline-entry heading body="Inforamtion section" />
@@ -100,37 +107,19 @@ import { api } from "boot/axios";
 export default {
   setup() {
     const cityName = ref("London");
-    const KyivField = ref("Response will be displayed here");
-    const LondonField = ref("Response will be displayed here");
-    const ParisField = ref("Response will be displayed here");
-    const data = ref(null);
+    const KyivField = ref("Click 'Load' to get weather info in Kyiv!");
+    const LondonField = ref("Click 'Load' to get weather info in London!");
+    const ParisField = ref("Click 'Load' to get weather info in Paris!");
 
-    const updateCity = (newCity) => {
-      cityName.value = newCity;
+    const updateKyivField = (field) => {
+      KyivField.value = field;
     };
-
-    const updateKyivField = () => {
-      KyivField.value = data.value;
+    const updateLondonField = (field) => {
+      LondonField.value = field;
     };
-    const updateLondonField = () => {
-      LondonField.value = data.value;
+    const updateParisField = (field) => {
+      ParisField.value = field;
     };
-    const updateParisField = () => {
-      ParisField.value = data.value;
-    };
-
-    const onSubmit = (city) => {
-      updateCity(city);
-      api
-        .get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${cityName.value}&appid=30292a6a5232adf186142c5e87134704`
-        )
-        .then((response) => {
-          console.log(response.data);
-          data.value = response.data;
-        });
-    };
-
     return {
       par1: "OpenWeatherMap is an online service, owned by OpenWeather Ltd, that provides global weather data via API, including current weather data, forecasts, nowcasts and historical weather data. The company provides a minute-by-minute hyperlocal precipitation forecast. The convolutional machine learning model is used to utilise meteorological broadcast services and data from airport weather stations, on-ground radar stations, weather satellites, remote sensing satellites, METAR, and automated weather stations.",
       par2: "Quasar Framework is an open-source Vue.js based framework for building apps with a single codebase. It is able to be deployed on the Web as a SPA, PWA, SSR, to a Mobile App, using Cordova for iOS & Android, and to a Desktop App, using Electron for Mac, Windows, and Linux.",
@@ -138,20 +127,33 @@ export default {
       tab: ref("Kyiv"),
       KyivField,
       ParisField,
-      data,
       LondonField,
       splitterModel: ref(20),
-      handleKyiv() {
-        onSubmit("Kyiv");
-        updateKyivField();
-      },
-      handleParis() {
-        onSubmit("Paris");
-        updateParisField();
-      },
-      handleLondon() {
-        onSubmit("London");
-        updateLondonField();
+      onSubmit() {
+        api
+          .get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${"Kyiv"}&appid=30292a6a5232adf186142c5e87134704`
+          )
+          .then((response) => {
+            console.log(response.data);
+            updateKyivField(response.data);
+          });
+        api
+          .get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${"London"}&appid=30292a6a5232adf186142c5e87134704`
+          )
+          .then((response) => {
+            console.log(response.data);
+            updateLondonField(response.data);
+          });
+        api
+          .get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${"Paris"}&appid=30292a6a5232adf186142c5e87134704`
+          )
+          .then((response) => {
+            console.log(response.data);
+            updateParisField(response.data);
+          });
       },
     };
   },
