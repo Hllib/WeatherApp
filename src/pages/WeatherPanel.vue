@@ -73,37 +73,40 @@ export default {
     const $q = useQuasar();
     const cityField = ref(null);
     const data = ref(null);
+    const cityName = ref("London");
 
-    function onSubmit() {
-      api
-        .get(
-          "https://api.openweathermap.org/data/2.5/weather?q=London&appid=30292a6a5232adf186142c5e87134704"
-        )
-        .then((response) => {
-          data.value = response.data;
-          console.log(response.data.main.temp);
-        });
-
-      $q.notify({
-        color: "green-4",
-        textColor: "white",
-        icon: "cloud_done",
-        message: "Processing",
-      });
-
-      visible.value = true;
-      showSimulatedReturnData.value = false;
-
-      setTimeout(() => {
-        visible.value = false;
-        showSimulatedReturnData.value = true;
-      }, 3000);
-    }
+    const updateCity = (newCity) => {
+      cityName.value = newCity;
+    };
 
     return {
       visible,
       showSimulatedReturnData,
-      onSubmit,
+      onSubmit() {
+        api
+          .get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${cityName.value}&appid=30292a6a5232adf186142c5e87134704`
+          )
+          .then((response) => {
+            data.value = response.data;
+            console.log(response.data.main.temp);
+          });
+
+        $q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Processing",
+        });
+
+        visible.value = true;
+        showSimulatedReturnData.value = false;
+
+        setTimeout(() => {
+          visible.value = false;
+          showSimulatedReturnData.value = true;
+        }, 3000);
+      },
       cityField,
       data,
       onReset() {
