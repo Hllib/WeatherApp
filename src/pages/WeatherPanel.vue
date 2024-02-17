@@ -2,10 +2,7 @@
   <div class="q-pa-md q-gutter-sm">
     <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'">
       <template v-slot:avatar>
-        <img
-          src="https://cdn.quasar.dev/img/mountains.jpg"
-          style="width: 100px; height: 64px"
-        />
+        <img src="~assets/CloudsImage.jpg" style="width: 100px; height: 64px" />
       </template>
 
       Choose a city you like and try this yourself!
@@ -155,6 +152,13 @@ export default {
       },
       onReset() {
         cityField.value = null;
+
+        $q.notify({
+          color: "red-4",
+          textColor: "white",
+          icon: "info",
+          message: "Cleared",
+        });
       },
     };
   },

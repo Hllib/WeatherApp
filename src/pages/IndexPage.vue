@@ -79,13 +79,6 @@
         </template>
       </q-splitter>
     </div>
-    <q-btn
-      push
-      color="white"
-      text-color="primary"
-      label="Load"
-      @click="onSubmit"
-    />
   </div>
   <div class="q-px-lg q-py-md">
     <q-timeline color="secondary">
@@ -110,7 +103,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { api } from "boot/axios";
 
 export default {
@@ -163,6 +156,38 @@ export default {
     </div>
   `;
     };
+
+    const onSubmit = () => {
+      api
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${"Kyiv"}&appid=30292a6a5232adf186142c5e87134704`
+        )
+        .then((response) => {
+          console.log(response.data);
+          updateKyivField(getMessageFromResponse(response.data));
+        });
+      api
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${"London"}&appid=30292a6a5232adf186142c5e87134704`
+        )
+        .then((response) => {
+          console.log(response.data);
+          updateLondonField(getMessageFromResponse(response.data));
+        });
+      api
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${"Paris"}&appid=30292a6a5232adf186142c5e87134704`
+        )
+        .then((response) => {
+          console.log(response.data);
+          updateParisField(getMessageFromResponse(response.data));
+        });
+    };
+
+    onMounted(() => {
+      onSubmit();
+    });
+
     return {
       par1: "OpenWeatherMap is an online service, owned by OpenWeather Ltd, that provides global weather data via API, including current weather data, forecasts, nowcasts and historical weather data. The company provides a minute-by-minute hyperlocal precipitation forecast. The convolutional machine learning model is used to utilise meteorological broadcast services and data from airport weather stations, on-ground radar stations, weather satellites, remote sensing satellites, METAR, and automated weather stations.",
       par2: "Quasar Framework is an open-source Vue.js based framework for building apps with a single codebase. It is able to be deployed on the Web as a SPA, PWA, SSR, to a Mobile App, using Cordova for iOS & Android, and to a Desktop App, using Electron for Mac, Windows, and Linux.",
@@ -172,32 +197,6 @@ export default {
       ParisField,
       LondonField,
       splitterModel: ref(20),
-      onSubmit() {
-        api
-          .get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${"Kyiv"}&appid=30292a6a5232adf186142c5e87134704`
-          )
-          .then((response) => {
-            console.log(response.data);
-            updateKyivField(getMessageFromResponse(response.data));
-          });
-        api
-          .get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${"London"}&appid=30292a6a5232adf186142c5e87134704`
-          )
-          .then((response) => {
-            console.log(response.data);
-            updateLondonField(getMessageFromResponse(response.data));
-          });
-        api
-          .get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${"Paris"}&appid=30292a6a5232adf186142c5e87134704`
-          )
-          .then((response) => {
-            console.log(response.data);
-            updateParisField(getMessageFromResponse(response.data));
-          });
-      },
     };
   },
 };
