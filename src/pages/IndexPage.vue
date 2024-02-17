@@ -18,6 +18,7 @@
     </div>
 
     <div class="q-pa-md" style="max-width: 350px">
+      <q-btn label="Submit" color="primary" @click="handleLondon" />
       <q-expansion-item
         class="shadow-1 overflow-hidden"
         style="border-radius: 30px"
@@ -55,18 +56,15 @@
           transition-next="jump-up"
         >
           <q-tab-panel name="Kyiv">
-            <div class="text-h4 q-mb-md">Weather in Kyiv</div>
-            <p>Weather in Kyiv</p>
+            <div class="text-h4 q-mb-md">{{ KyivField }}</div>
           </q-tab-panel>
 
           <q-tab-panel name="London">
-            <div class="text-h4 q-mb-md">Weather in London</div>
-            <p>Weather in London</p>
+            <div class="text-h4 q-mb-md">{{ LondonField }}</div>
           </q-tab-panel>
 
           <q-tab-panel name="Paris">
-            <div class="text-h4 q-mb-md">Weather in Paris</div>
-            <p>Weather in Paris</p>
+            <div class="text-h4 q-mb-md">{{ ParisField }}</div>
           </q-tab-panel>
         </q-tab-panels>
       </template>
@@ -101,35 +99,60 @@ import { api } from "boot/axios";
 
 export default {
   setup() {
+    const cityName = ref("London");
+    const KyivField = ref("Response will be displayed here");
+    const LondonField = ref("Response will be displayed here");
+    const ParisField = ref("Response will be displayed here");
     const data = ref(null);
 
-    function loadData() {
+    const updateCity = (newCity) => {
+      cityName.value = newCity;
+    };
+
+    const updateKyivField = () => {
+      KyivField.value = data.value;
+    };
+    const updateLondonField = () => {
+      LondonField.value = data.value;
+    };
+    const updateParisField = () => {
+      ParisField.value = data.value;
+    };
+
+    const onSubmit = (city) => {
+      updateCity(city);
       api
         .get(
-          "https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=30292a6a5232adf186142c5e87134704"
+          `https://api.openweathermap.org/data/2.5/weather?q=${cityName.value}&appid=30292a6a5232adf186142c5e87134704`
         )
         .then((response) => {
-          data.value = response.data;
           console.log(response.data);
-        })
-        .catch(() => {
-          $q.notify({
-            color: "negative",
-            position: "top",
-            message: "Loading failed",
-            icon: "report_problem",
-          });
+          data.value = response.data;
         });
-    }
+    };
 
     return {
       par1: "OpenWeatherMap is an online service, owned by OpenWeather Ltd, that provides global weather data via API, including current weather data, forecasts, nowcasts and historical weather data. The company provides a minute-by-minute hyperlocal precipitation forecast. The convolutional machine learning model is used to utilise meteorological broadcast services and data from airport weather stations, on-ground radar stations, weather satellites, remote sensing satellites, METAR, and automated weather stations.",
       par2: "Quasar Framework is an open-source Vue.js based framework for building apps with a single codebase. It is able to be deployed on the Web as a SPA, PWA, SSR, to a Mobile App, using Cordova for iOS & Android, and to a Desktop App, using Electron for Mac, Windows, and Linux.",
       body: "Lorem ipsum",
       tab: ref("Kyiv"),
-      splitterModel: ref(20),
+      KyivField,
+      ParisField,
       data,
-      loadData,
+      LondonField,
+      splitterModel: ref(20),
+      handleKyiv() {
+        onSubmit("Kyiv");
+        updateKyivField();
+      },
+      handleParis() {
+        onSubmit("Paris");
+        updateParisField();
+      },
+      handleLondon() {
+        onSubmit("London");
+        updateLondonField();
+      },
     };
   },
 };

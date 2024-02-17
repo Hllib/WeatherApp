@@ -102,8 +102,19 @@ export default {
           )
           .then((response) => {
             data.value = response.data;
-            console.log(response.data.main.temp);
-            updateTempField(response.data.main.temp);
+            const responseMessage = `
+  Weather in ${cityField.value} today:
+  Description: ${data.value.weather[0].description}
+  Temperature: ${Math.round(data.value.main.temp - 273.15)}°C
+  Feels like: ${Math.round(data.value.main.feels_like - 273.15)}°C
+  Humidity: ${data.value.main.humidity}%
+  Pressure: ${data.value.main.pressure} hPa
+  Wind Speed: ${data.value.wind.speed} m/s
+  Sunrise: ${new Date(data.value.sys.sunrise * 1000).toLocaleTimeString()}
+  Sunset: ${new Date(data.value.sys.sunset * 1000).toLocaleTimeString()}
+`;
+
+            updateTempField(responseMessage);
           });
 
         $q.notify({
