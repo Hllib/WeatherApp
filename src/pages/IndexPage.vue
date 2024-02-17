@@ -56,15 +56,24 @@
             transition-next="jump-up"
           >
             <q-tab-panel name="Kyiv">
-              <div class="text-h4 q-mb-md">{{ KyivField }}</div>
+              <div
+                class="text-h4 q-mb-md message-container"
+                v-html="KyivField"
+              ></div>
             </q-tab-panel>
 
             <q-tab-panel name="London">
-              <div class="text-h4 q-mb-md">{{ LondonField }}</div>
+              <div
+                class="text-h4 q-mb-md message-container"
+                v-html="LondonField"
+              ></div>
             </q-tab-panel>
 
             <q-tab-panel name="Paris">
-              <div class="text-h4 q-mb-md">{{ ParisField }}</div>
+              <div
+                class="text-h4 q-mb-md message-container"
+                v-html="ParisField"
+              ></div>
             </q-tab-panel>
           </q-tab-panels>
         </template>
@@ -120,6 +129,40 @@ export default {
     const updateParisField = (field) => {
       ParisField.value = field;
     };
+
+    const getMessageFromResponse = (data) => {
+      return `
+    <div style="font-family: Arial, sans-serif; padding: 10px; border-radius: 5px; background-color: #f0f0f0; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); font-size: 14px; line-height: 1.2;">
+      <p><strong style="color: #333; font-size: 14px;">City:</strong> <span style="color: #555;">${
+        data.name
+      }</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Description:</strong> <span style="color: #555;">${
+        data.weather[0].description
+      }</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Temperature:</strong> <span style="color: #e74c3c;">${Math.round(
+        data.main.temp - 273.15
+      )}°C</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Feels like:</strong> <span style="color: #e74c3c;">${Math.round(
+        data.main.feels_like - 273.15
+      )}°C</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Humidity:</strong> <span style="color: #3498db;">${
+        data.main.humidity
+      }%</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Pressure:</strong> <span style="color: #3498db;">${
+        data.main.pressure
+      } hPa</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Wind Speed:</strong> <span style="color: #27ae60;">${
+        data.wind.speed
+      } m/s</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Sunrise:</strong> <span style="color: #f39c12;">${new Date(
+        data.sys.sunrise * 1000
+      ).toLocaleTimeString()}</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Sunset:</strong> <span style="color: #f39c12;">${new Date(
+        data.sys.sunset * 1000
+      ).toLocaleTimeString()}</span></p>
+    </div>
+  `;
+    };
     return {
       par1: "OpenWeatherMap is an online service, owned by OpenWeather Ltd, that provides global weather data via API, including current weather data, forecasts, nowcasts and historical weather data. The company provides a minute-by-minute hyperlocal precipitation forecast. The convolutional machine learning model is used to utilise meteorological broadcast services and data from airport weather stations, on-ground radar stations, weather satellites, remote sensing satellites, METAR, and automated weather stations.",
       par2: "Quasar Framework is an open-source Vue.js based framework for building apps with a single codebase. It is able to be deployed on the Web as a SPA, PWA, SSR, to a Mobile App, using Cordova for iOS & Android, and to a Desktop App, using Electron for Mac, Windows, and Linux.",
@@ -136,7 +179,7 @@ export default {
           )
           .then((response) => {
             console.log(response.data);
-            updateKyivField(response.data);
+            updateKyivField(getMessageFromResponse(response.data));
           });
         api
           .get(
@@ -144,7 +187,7 @@ export default {
           )
           .then((response) => {
             console.log(response.data);
-            updateLondonField(response.data);
+            updateLondonField(getMessageFromResponse(response.data));
           });
         api
           .get(
@@ -152,10 +195,42 @@ export default {
           )
           .then((response) => {
             console.log(response.data);
-            updateParisField(response.data);
+            updateParisField(getMessageFromResponse(response.data));
           });
       },
     };
   },
 };
 </script>
+
+<style>
+.message-container {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #3498db, #2980b9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.message-container p {
+  margin: 10px 0;
+  color: #fff; /* Text color for paragraphs */
+}
+
+.message-container strong {
+  font-weight: bold;
+}
+
+.message-container .highlight {
+  color: #ffeb3b; /* Highlighted text color */
+}
+
+/* Additional styling for specific elements */
+.message-container .temperature {
+  color: #f39c12; /* Temperature text color */
+}
+
+.message-container .description {
+  font-style: italic; /* Italicize the description */
+}
+</style>

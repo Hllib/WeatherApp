@@ -8,7 +8,7 @@
         />
       </template>
 
-      Lorem ipsum dolor sit amet
+      Choose a city you like and try this yourself!
     </q-banner>
   </div>
 
@@ -25,9 +25,11 @@
             enter-active-class="animated fadeIn"
             leave-active-class="animated fadeOut"
           >
-            <div v-show="showSimulatedReturnData">
-              {{ tempField }}
-            </div>
+            <div
+              v-show="showSimulatedReturnData"
+              class="text-h4 q-mb-md message-container"
+              v-html="tempField"
+            ></div>
           </transition>
         </q-card-section>
 
@@ -103,17 +105,36 @@ export default {
           .then((response) => {
             data.value = response.data;
             const responseMessage = `
-  Weather in ${cityField.value} today:
-  Description: ${data.value.weather[0].description}
-  Temperature: ${Math.round(data.value.main.temp - 273.15)}°C
-  Feels like: ${Math.round(data.value.main.feels_like - 273.15)}°C
-  Humidity: ${data.value.main.humidity}%
-  Pressure: ${data.value.main.pressure} hPa
-  Wind Speed: ${data.value.wind.speed} m/s
-  Sunrise: ${new Date(data.value.sys.sunrise * 1000).toLocaleTimeString()}
-  Sunset: ${new Date(data.value.sys.sunset * 1000).toLocaleTimeString()}
-`;
-
+    <div style="font-family: Arial, sans-serif; padding: 10px; border-radius: 5px; background-color: #f0f0f0; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); font-size: 14px; line-height: 1.2;">
+      <p><strong style="color: #333; font-size: 14px;">City:</strong> <span style="color: #555;">${
+        data.value.name
+      }</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Description:</strong> <span style="color: #555;">${
+        data.value.weather[0].description
+      }</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Temperature:</strong> <span style="color: #e74c3c;">${Math.round(
+        data.value.main.temp - 273.15
+      )}°C</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Feels like:</strong> <span style="color: #e74c3c;">${Math.round(
+        data.value.main.feels_like - 273.15
+      )}°C</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Humidity:</strong> <span style="color: #3498db;">${
+        data.value.main.humidity
+      }%</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Pressure:</strong> <span style="color: #3498db;">${
+        data.value.main.pressure
+      } hPa</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Wind Speed:</strong> <span style="color: #27ae60;">${
+        data.value.wind.speed
+      } m/s</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Sunrise:</strong> <span style="color: #f39c12;">${new Date(
+        data.value.sys.sunrise * 1000
+      ).toLocaleTimeString()}</span></p>
+      <p><strong style="color: #333; font-size: 14px;">Sunset:</strong> <span style="color: #f39c12;">${new Date(
+        data.value.sys.sunset * 1000
+      ).toLocaleTimeString()}</span></p>
+    </div>
+  `;
             updateTempField(responseMessage);
           });
 
@@ -142,6 +163,6 @@ export default {
 
 <style lang="sass" scoped>
 .card-example
-  width: 288px
-  height: 290px
+  width: 500px
+  height: 400px
 </style>
