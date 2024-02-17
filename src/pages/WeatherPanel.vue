@@ -25,7 +25,9 @@
             enter-active-class="animated fadeIn"
             leave-active-class="animated fadeOut"
           >
-            <div v-show="showSimulatedReturnData"></div>
+            <div v-show="showSimulatedReturnData">
+              {{ tempField }}
+            </div>
           </transition>
         </q-card-section>
 
@@ -75,14 +77,25 @@ export default {
     const data = ref(null);
     const cityName = ref("London");
 
+    const tempField = ref("Response will be displayed here");
+
     const updateCity = (newCity) => {
       cityName.value = newCity;
+    };
+
+    const updateTempField = (newField) => {
+      tempField.value = newField;
     };
 
     return {
       visible,
       showSimulatedReturnData,
+      tempField,
+      cityField,
+      data,
+      cityName,
       onSubmit() {
+        updateCity(cityField.value);
         api
           .get(
             `https://api.openweathermap.org/data/2.5/weather?q=${cityName.value}&appid=30292a6a5232adf186142c5e87134704`
@@ -90,6 +103,7 @@ export default {
           .then((response) => {
             data.value = response.data;
             console.log(response.data.main.temp);
+            updateTempField(response.data.main.temp);
           });
 
         $q.notify({
@@ -107,8 +121,6 @@ export default {
           showSimulatedReturnData.value = true;
         }, 3000);
       },
-      cityField,
-      data,
       onReset() {
         cityField.value = null;
       },
