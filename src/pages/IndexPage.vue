@@ -75,20 +75,21 @@
 
   <div class="q-px-lg q-py-md">
     <q-timeline color="secondary">
-      <q-timeline-entry heading body="What is this website?" />
+      <q-timeline-entry heading body="Inforamtion section" />
 
       <q-timeline-entry
-        title="OpenWeather.com"
+        title="OpenWeather.org"
         subtitle="How do we access weather data?"
-        avatar="~assets/Avatar.jpg"
+        icon="cloud"
+        color="orange"
         :body="par1"
       />
       <q-timeline-entry
-        title="Event Title"
-        subtitle="February 22, 1986"
+        title="Quasar Framework"
+        subtitle="How does this website work?"
         color="orange"
-        icon="done_all"
-        :body="body"
+        icon="info"
+        :body="par2"
       />
     </q-timeline>
   </div>
@@ -122,8 +123,8 @@ export default {
     }
 
     return {
-      par1: "We use OpenWeather.com",
-      par2: "",
+      par1: "OpenWeatherMap is an online service, owned by OpenWeather Ltd, that provides global weather data via API, including current weather data, forecasts, nowcasts and historical weather data. The company provides a minute-by-minute hyperlocal precipitation forecast. The convolutional machine learning model is used to utilise meteorological broadcast services and data from airport weather stations, on-ground radar stations, weather satellites, remote sensing satellites, METAR, and automated weather stations.",
+      par2: "Quasar Framework is an open-source Vue.js based framework for building apps with a single codebase. It is able to be deployed on the Web as a SPA, PWA, SSR, to a Mobile App, using Cordova for iOS & Android, and to a Desktop App, using Electron for Mac, Windows, and Linux.",
       body: "Lorem ipsum",
       tab: ref("Kyiv"),
       splitterModel: ref(20),

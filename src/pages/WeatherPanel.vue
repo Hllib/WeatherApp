@@ -25,9 +25,7 @@
             enter-active-class="animated fadeIn"
             leave-active-class="animated fadeOut"
           >
-            <div v-show="showSimulatedReturnData">
-              {{ textFieldValue }}
-            </div>
+            <div v-show="showSimulatedReturnData"></div>
           </transition>
         </q-card-section>
 
@@ -41,18 +39,9 @@
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
         <q-input
           filled
-          v-model="name"
-          label="Longitude *"
-          hint="Example: 44.34"
-          lazy-rules
-          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-        />
-
-        <q-input
-          filled
-          v-model="age"
-          label="Latitude *"
-          hint="Example: 10.99"
+          v-model="cityField"
+          label="City *"
+          hint="Example: London"
           lazy-rules
           :rules="[(val) => (val && val.length > 0) || 'Please type something']"
         />
@@ -82,30 +71,17 @@ export default {
     const visible = ref(false);
     const showSimulatedReturnData = ref(false);
     const $q = useQuasar();
-    const name = ref(null);
-    const age = ref(null);
+    const cityField = ref(null);
     const data = ref(null);
-
-    function loadData() {
-      api
-        .get(
-          "https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=30292a6a5232adf186142c5e87134704"
-        )
-        .then((response) => {
-          data.value = response.data;
-          console.log(data.value);
-        });
-    }
 
     function onSubmit() {
       api
         .get(
-          "https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=30292a6a5232adf186142c5e87134704"
+          "https://api.openweathermap.org/data/2.5/weather?q=London&appid=30292a6a5232adf186142c5e87134704"
         )
         .then((response) => {
           data.value = response.data;
-          this.textFieldValue = "data.value.formattedString;";
-          console.log(data.value);
+          console.log(response.data.main.temp);
         });
 
       $q.notify({
@@ -128,14 +104,10 @@ export default {
       visible,
       showSimulatedReturnData,
       onSubmit,
-      loadData,
-      name,
-      age,
+      cityField,
       data,
-      textFieldValue: "adasds",
       onReset() {
-        name.value = null;
-        age.value = null;
+        cityField.value = null;
       },
     };
   },
