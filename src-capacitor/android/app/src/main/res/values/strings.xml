@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Monastyrov_Weather_App_122_21_1</string>
+    <string name="title_activity_main">Monastyrov_Weather_App_122_21_1</string>
+    <string name="package_name">com.hellocapacitor.app</string>
+    <string name="custom_url_scheme">com.hellocapacitor.app</string>
+</resources>
